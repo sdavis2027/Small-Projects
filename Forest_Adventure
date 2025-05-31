@@ -1,0 +1,157 @@
+/**/
+#include <iostream>;
+#include <fstream>;
+#include <iomanip>;
+#include <cstdlib>;
+#include <ctime>;
+#include <string>;
+#include <vector>;
+#include <array>;
+
+using namespace std;
+
+char all_dir[] = {'n', 's', 'e', 'w'};
+char fork_dir[] = {'l', 'r', 'b'};
+string user_choice = "";
+string home = "";
+string end = "";
+string name = "";
+
+void opening_sequence()
+{
+    cout << 'Franz: Hey...';
+    cout << 'Franz: Hey... Wake Up! ' << endl;
+    cout << '( you wake up in a haze )' << endl;
+    cout << '( You a see a husky man with a beard, standing about 6 and a hald feet tall with a kind smile )' << endl;
+    cout << '( You look around and see nothing but dark, thick, forest)' << endl;
+    cout << 'Whats your name friend?: ';
+    cin >> name;
+    cout << endl;
+    cout << 'Franz: Well hello there' << name << ', my Name is Franz' << endl;
+    cout <<'Franz: I was walking back to my cabin to get some firewood for the family when I found you on the ground' << endl;
+    cout << 'Franz: Where you from friend?: ';
+    cin >> home;
+    cout << 'Franz: Well im sorry, im not sure where' << home << 'is, but i can tell you it isnt south because thats where i live' << endl;
+    cout << 'but I have to get back to my family, so ill see you around' << endl;
+    cout << 'Good luck on your adventure' << name << '!' << endl;
+    cout << '(Franz walks away, twaords the south)' << endl; 
+};
+
+void choose_dir()
+    {
+    cout << 'Which direction would you like to head?' << endl;
+    cout << '(n)orth' << endl; 
+    cout << '(s)outh' << endl;
+    cout << '(e)ast' << endl;
+    cout << '(w)est' << endl;
+    cout << 'Enter direction: ' << endl;
+    cin >> user_choice;
+    cout << endl;
+    for (int x = 1; x <= 5; ++x)
+    {
+     while (x != all_dir[x])
+     {
+        cout << 'invalid choice, try again' << endl;
+        cout << 'Which direction would you like to head?' << endl;
+        cout << '(n)orth' << endl;
+        cout << '(s)outh' << endl;
+        cout << '(e)ast' << endl;
+        cout << '(w)est' << endl;
+        cout << 'Enter direction: ' << endl; 
+        cin >> user_choice;
+        cout << endl;
+     };
+    };
+    };
+    
+void l_or_r()
+    {
+    cout << 'You approache a fork in the road' << endl;
+    cout << 'Which path would you like to take?' << endl; 
+    cout << '(l)eft' << endl;
+    cout << '(r)ight' << endl;
+    cout << '(b)ack' << endl;
+    cout << 'Enter direction: ' << endl;
+    cin >> user_choice;
+    cout << endl;
+    for (int x = 1; x <= 4; ++x)
+    {
+     while (x != fork_dir[x])
+     {
+    cout << 'invalid choice, try again' << endl;
+    cout << 'You approache a fork in the road' << endl;
+    cout << 'Which path would you like to take?' << endl; 
+    cout << '(l)eft' << endl;
+    cout << '(r)ight' << endl;
+    cout << '(b)ack' << endl;
+    cout << 'Enter direction: ' << endl;
+    cin >> user_choice;
+    cout << endl;
+     };
+    };
+    };
+
+void south()
+{
+    cout << 'You chose to go south even though Franz told you not to' << endl;
+    cout << 'bold move' << endl;
+    cout << 'you walk for a while untill you start to catch up to franz' << endl;
+    cout << 'he turns around and yells at you for following him' << endl;
+    cout << 'you feel bad and turn around and head back to where you started' << endl;
+    choose_dir();
+};
+
+void west()
+{
+    l_or_r();
+    if (user_choice[-1] == 'l')
+    {
+        cout << 'you go left, and aproach an open field with a statue in the middle' << endl;
+        cout << 'the statue appaers to be and old rusted dragon, named marcus' << endl;
+        cout << 'I mean thats cool but it doesnt help, so you head back to the fork in the road ' << endl;
+        l_or_r();
+    };
+    
+    if user_choice[-1] == 'r':
+        print('you head down the right path for a while untill you aproach a fimilliar clearing')
+        print(f'you see a sign that says: {home}: 5 miles ahead')
+        print('YOU MADE IT OUT!')
+        print('CONGRATS! Game over')
+        end.append('yes')
+    if user_choice[-1] == 'b':
+        print('you go back to the starting point')
+        choose_dir()
+};
+
+void east()
+{
+    print('You head east')
+    print('as you walk down the path you aproach an old man on his rocking chair outside his old house')
+    print('He doesnt look very friendly, he yells at you')
+    print('Who Goes there!, Whats your name?')
+    name = input('Enter your name: ')
+    print(f'What brings you around these parts {name}?')
+    print(f'(you tell him youre looking for {home[0]})')
+    print(f'{home[0]} is west, now get the hell of my property')
+    print('you follow his command and head back to the start')
+    choose_dir()
+};
+
+def north():
+    print('you head north')
+    l_or_r()
+    x = 0
+    while x == 0:
+        if user_choice[-1] == 'l':
+            print('you head left')
+            print('you follow the road untill you see an abnormally large tree, pretty cool, but it doesnt help so you head back to the fork in the road')
+            l_or_r()
+        if user_choice[-1] == 'r':
+            print('you head right')
+            print('you approach a big creepy house, you knock to see if anyone is home...')
+            print('no one is, you head back to the fork in the road.')
+            l_or_r()
+        if user_choice[-1] == 'b':
+            print('you go back to the starting point')
+            x += 1
+            choose_dir()
