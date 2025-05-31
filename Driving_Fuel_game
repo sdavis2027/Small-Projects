@@ -1,0 +1,74 @@
+#include <iostream>
+#include <iomanip>
+
+class Car {
+protected:
+    double fuel;
+public:
+    Car(double mFuel) : fuel(mFuel) {}
+    virtual void operate(double minutes, double speed) = 0;
+    virtual void showDash() const = 0;
+};
+
+class HybridCar : public Car {
+private:
+    double charge;
+    double maxCharge;
+public:
+    HybridCar(double mFuel, double mCharge) : Car(mFuel), charge(0), maxCharge(mCharge) {}
+    void addCharge(double ch) {
+        charge += ch;
+        if (charge > maxCharge) {
+            charge = maxCharge;
+        }
+    }
+    void showDash() const override {
+        std::cout << "Fuel: " << fuel << " gallons\n";
+        std::cout << "Charge: " << charge << " kWh\n";
+    }
+    void operate(double minutes, double speed) override {
+        double distance = (speed / 60) * minutes; // miles
+        double gasUsed = distance / 30; // 30 mpg
+        double chargeUsed = (minutes * speed) / 180;
+        
+        if (charge >= chargeUsed) {
+            charge -= chargeUsed;
+        } else {
+            gasUsed -= (chargeUsed - charge) * 10; // 0.1 gallons charge per mile
+            charge = 0;
+            if (fuel >= gasUsed) {
+                fuel -= gasUsed;
+                charge += gasUsed * 0.1; // 0.1 kWh charge per mile
+            } else {
+                charge += fuel * 10; // 10 kWh charge per gallon
+                fuel = 0;
+            }
+        }
+        if (charge < 0) {
+            charge = 0; // Prevent charge from going negative
+        }
+    }
+};
+
+int main() {
+    HybridCar hybrid(10, 50); // 10 gallons of fuel, 50 kWh max charge
+    hybrid.addCharge(20); // Add 20 kWh of charge
+    
+    char choice;
+    do {
+        std::cout << "Enter the drive details (minutes speed): ";
+        double minutes, speed;
+        std::cin >> minutes >> speed;
+        
+        hybrid.operate(minutes, speed);
+
+        std::cout << "After driving for " << minutes << " minutes at " << speed << " mph:\n";
+        hybrid.showDash();
+
+        std::cout << "Do you want to continue driving? (y/n): ";
+        std::cin >> choice;
+        std::cout << std::endl;
+    } while (choice == 'y' || choice == 'Y');
+
+    return 0;
+}
