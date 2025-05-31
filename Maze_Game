@@ -1,0 +1,104 @@
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+
+const int SIZE = 5;
+const char WALL = '#';
+const char PLAYER = 'P';
+const char FINISH = 'F';
+const char EMPTY = ' ';
+
+// Function to initialize the map
+void initializeMap(char map[SIZE][SIZE]) {
+    for (int i = 0; i < SIZE; ++i) {
+        for (int j = 0; j < SIZE; ++j) {
+            map[i][j] = EMPTY;
+        }
+    }
+
+    // Place walls randomly but ensuring there's a path from start to finish
+    for (int i = 0; i < SIZE; ++i) {
+        map[i][1 + rand() % 3] = WALL;
+    }
+    map[SIZE - 1][SIZE - 1] = FINISH; // Place the finish line
+}
+
+// Function to print the map
+void printMap(const char map[SIZE][SIZE]) {
+    for (int i = 0; i < SIZE; ++i) {
+        for (int j = 0; j < SIZE; ++j) {
+            std::cout << map[i][j] << ' ';
+        }
+        std::cout << std::endl;
+    }
+}
+
+// Function to check if the player can move in a certain direction
+bool canMove(const char map[SIZE][SIZE], int x, int y, char direction) {
+    if (direction == 'U' && x > 0 && map[x - 1][y] != WALL) {
+        return true;
+    } else if (direction == 'D' && x < SIZE - 1 && map[x + 1][y] != WALL) {
+        return true;
+    } else if (direction == 'L' && y > 0 && map[x][y - 1] != WALL) {
+        return true;
+    } else if (direction == 'R' && y < SIZE - 1 && map[x][y + 1] != WALL) {
+        return true;
+    }
+    return false;
+}
+
+int main() {
+    char map[SIZE][SIZE];
+    char direction;
+
+    std::srand(std::time(nullptr));
+
+    do {
+        initializeMap(map);
+        int playerX = SIZE - 1; // Starting position of player
+        int playerY = 0;
+        map[playerX][playerY] = PLAYER;
+
+        std::cout << "Welcome to the maze game!\n";
+        std::cout << "Use 'U' for Up, 'D' for Down, 'L' for Left, 'R' for Right, or 'Q' to Quit.\n";
+
+        printMap(map);
+
+        do {
+            std::cout << "Enter your move: ";
+            std::cin >> direction;
+
+            if (direction == 'U' && canMove(map, playerX, playerY, 'U')) {
+                map[playerX][playerY] = EMPTY;
+                --playerX;
+                map[playerX][playerY] = PLAYER;
+            } else if (direction == 'D' && canMove(map, playerX, playerY, 'D')) {
+                map[playerX][playerY] = EMPTY;
+                ++playerX;
+                map[playerX][playerY] = PLAYER;
+            } else if (direction == 'L' && canMove(map, playerX, playerY, 'L')) {
+                map[playerX][playerY] = EMPTY;
+                --playerY;
+                map[playerX][playerY] = PLAYER;
+            } else if (direction == 'R' && canMove(map, playerX, playerY, 'R')) {
+                map[playerX][playerY] = EMPTY;
+                ++playerY;
+                map[playerX][playerY] = PLAYER;
+            }
+
+            printMap(map);
+
+        } while (direction != 'Q' && map[playerX][playerY] != FINISH);
+
+        if (map[playerX][playerY] == FINISH) {
+            std::cout << "Congratulations! You reached the finish line!\n";
+        } else {
+            std::cout << "Thanks for playing!\n";
+        }
+
+        std::cout << "Do you want to play again? (Y/N): ";
+        std::cin >> direction;
+    } while (direction == 'Y' || direction == 'y');
+
+    return 0;
+}
