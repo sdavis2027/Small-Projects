@@ -1,0 +1,159 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+#include <ctime>
+
+class Card {
+private:
+    std::string suit;
+    std::string rank;
+    int value;
+public:
+    Card(std::string suit, std::string rank, int value) : suit(suit), rank(rank), value(value) {}
+    int getBlackjackValue() const {
+        return (rank == "Ace") ? 11 : (value > 10 ? 10 : value);
+    }
+    void display() const {
+        std::cout << rank << " of " << suit;
+    }
+};
+
+class Hand {
+private:
+    std::vector<Card> cards;
+public:
+    void addCard(const Card& card) {
+        cards.push_back(card);
+    }
+    int getHandValue() const {
+        int total = 0;
+        int numAces = 0;
+        for (const auto& card : cards) {
+            total += card.getBlackjackValue();
+            if (card.getBlackjackValue() == 11) {
+                numAces++;
+            }
+        }
+        while (total > 21 && numAces > 0) {
+            total -= 10;
+            numAces--;
+        }
+        return total;
+    }
+    void printHand(bool showAll) const {
+        for (size_t i = 0; i < cards.size(); ++i) {
+            if (i == 0 && !showAll) {
+                std::cout << "HIDDEN\n";
+            } else {
+                cards[i].display();
+                std::cout << std::endl;
+            }
+        }
+    }
+    void clear() {
+        cards.clear();
+    }
+};
+
+class Deck {
+private:
+    std::vector<Card> cards;
+public:
+    Deck() {
+        const std::vector<std::string> suits = {"Hearts", "Diamonds", "Clubs", "Spades"};
+        const std::vector<std::string> ranks = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Ace"};
+        for (const auto& suit : suits) {
+            for (size_t i = 0; i < ranks.size(); ++i) {
+                int value = (i < 9) ? i + 2 : 10;
+                cards.push_back(Card(suit, ranks[i], value));
+            }
+        }
+        shuffle();
+    }
+    void shuffle() {
+        std::random_shuffle(cards.begin(), cards.end());
+    }
+    Card dealCard() {
+        Card card = cards.back();
+        cards.pop_back();
+        return card;
+    }
+};
+
+int main() {
+    srand(time(0));
+    int money = 100;
+    bool playAgain = true;
+
+    while (playAgain) {
+        std::cout << "Money: $" << money << std::endl;
+
+        Deck deck;
+        Hand playerHand, dealerHand;
+
+        int bet;
+        std::cout << "Place your bet: ";
+        std::cin >> bet;
+
+        playerHand.addCard(deck.dealCard());
+        playerHand.addCard(deck.dealCard());
+        dealerHand.addCard(deck.dealCard());
+        dealerHand.addCard(deck.dealCard());
+
+        std::cout << "Your hand:\n";
+        playerHand.printHand(true);
+        std::cout << "\n";
+        std::cout << "Dealer's hand:\n";
+        dealerHand.printHand(false);
+
+        // Player's turn
+        while (playerHand.getHandValue() < 21) {
+            char choice;
+            std::cout << "Hit (h) or Stand (s): ";
+            std::cin >> choice;
+            if (choice == 'h') {
+                playerHand.addCard(deck.dealCard());
+                std::cout << "Your hand:\n";
+                playerHand.printHand(true);
+            } else {
+                break;
+            }
+        }
+
+        int playerScore = playerHand.getHandValue();
+        if (playerScore > 21) {
+            std::cout << "Busted! You lose $" << bet << std::endl;
+            money -= bet;
+        } else {
+            // Dealer's turn
+            std::cout << "Dealer's hand:\n";
+            dealerHand.printHand(true);
+            while (dealerHand.getHandValue() < 17) {
+                dealerHand.addCard(deck.dealCard());
+                std::cout << "Dealer hits...\n";
+            }
+
+            int dealerScore = dealerHand.getHandValue();
+            if (dealerScore > 21 || dealerScore < playerScore) {
+                std::cout << "You win $" << bet << std::endl;
+                money += bet;
+            } else if (dealerScore == playerScore) {
+                std::cout << "It's a tie. You keep your money.\n";
+            } else {
+                std::cout << "Dealer wins. You lose $" << bet << std::endl;
+                money -= bet;
+            }
+        }
+
+        // Check if player wants to play again
+        char playChoice;
+        std::cout << "Play again? (y/n): ";
+        std::cin >> playChoice;
+        playAgain = (playChoice == 'y');
+    }
+
+    std::cout << "Goodbye!\n";
+
+    return 0;
+}
