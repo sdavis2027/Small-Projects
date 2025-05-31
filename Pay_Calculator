@@ -1,0 +1,49 @@
+/* 
+Programmer: Steven Davis 
+Course: CSC 1720 
+Date: 1/12/24
+Path: users > Steven Davis > OneDrive > desktop > Master > Coding > C++ > lab1b.cpp
+description: calculates spending money for user in 5 week internship post taxes aswell as spending on clothing and school supplies, 
+aswell as plans investme
+help recived: D.S. Malik 
+Compile / Execute: VS Code does it for me 
+*/
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    cout << "Welcome to summer job calculator! \n";
+
+double payrate;
+int hours;
+double total;
+double post_tax;
+double clothes_spending;
+double supplies_spending;
+double personal_investment;
+double total_investment;
+
+cout << "Enter hourly Payrate: ";
+cin >> payrate;
+cout << endl;
+cout << "enter number of hours per week: ";
+cin >> hours;
+cout << endl;
+
+total = hours * payrate * 5;
+post_tax = total * 0.86;
+clothes_spending = post_tax * 0.2;
+supplies_spending = post_tax * 0.03;
+personal_investment = (post_tax - clothes_spending - supplies_spending) * 0.25;
+total_investment = personal_investment * 1.5;
+
+cout << "Total income: $" << total << ".\n";
+cout << "After taxes income: $" << post_tax << ".\n";
+cout << "Clothes spending: $" << clothes_spending << ".\n";
+cout << "School supplies spending: $" << supplies_spending << ".\n";
+cout << "Personal investment: $" << personal_investment << ".\n";
+cout << "Total investment: $" << total_investment << ".\n";
+
+    return 0;
+}
