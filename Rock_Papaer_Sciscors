@@ -1,0 +1,192 @@
+/* */
+#include <iostream>;
+#include <fstream>;
+#include <iomanip>;
+#include <cstdlib>;
+#include <ctime>;
+using namespace std;
+
+int main()
+{
+
+    string responce;
+    string roll_name;
+    string choice;
+    string choice_name;
+    cout << "welcome to Rock, Paper, scissors, Lizard, Spock" << "\n";
+    cout<< "Would you like to play? (y or n)? ";
+    cin >> responce;
+    cout << "\n";
+
+
+    while (responce == "y")
+    {
+       cout << "Rock! Paper! Scissors! Lizard! Spock! Shoot!!!" << "\n";
+       cout << "Choose an item (r, p, s, l, or k): ";
+       cin >> choice;
+       cout << "\n";
+
+       while (choice != "r" and choice != "p" and choice != "s" and choice != "l" and choice != "k")
+       {
+           cout << "Choose an item (r, p, s, l, or k): ";
+           cin >> choice;
+           cout << "\n";
+       }
+
+       int comp_num = rand() % 5;
+       if (comp_num == 0)
+       {
+           roll_name = "Rock";
+       }
+
+       else if (comp_num == 1)
+       {
+           roll_name = "Paper";
+       }
+
+       else if (comp_num == 2)
+       {
+           roll_name = "Scissors";
+       }
+
+       else if (comp_num == 3)
+       {
+           roll_name = "Lizard";
+       }
+
+       else
+       {
+           roll_name = "Spock";
+       }
+
+       if (choice == "r")
+       {
+           choice_name = "Rock";
+       }
+
+       else if (choice == "p")
+       {
+        choice_name = "Paper";
+       }
+
+       else if (choice == "s")
+       {
+        choice_name = "Scissors";
+       }
+
+       else if (choice == "l")
+       {
+        choice_name = "Lizard";
+       }
+
+       else
+       {
+        choice_name = "Spock";
+       }
+
+       cout << "You chose " << choice_name << "." << "  The Computer chose " << roll_name << "." << "\n";
+
+       if (choice == "r")
+       {
+        if (comp_num == 3   or comp_num == 2)
+        {
+            cout << "You Win!" << "\n";
+        }
+        else if (comp_num == 1 or comp_num == 4)
+        {
+            cout << "You Loose" << "\n";
+        }
+        else if (comp_num == 0)
+        {
+            cout << "Tied Game" << "\n";
+        }
+        cout<< "Would you like to play again? (y or n)? ";
+        cin >> responce;
+        cout << "\n";
+        }
+
+        if (choice == "p")
+       {
+        if (comp_num == 0   or comp_num == 4)
+        {
+            cout << "You Win!" << "\n";
+        }
+        else if (comp_num == 2 or comp_num == 3)
+        {
+            cout << "You Loose" << "\n";
+        }
+        else if (comp_num == 1)
+        {
+            cout << "Tied Game" << "\n";
+        }
+        cout<< "Would you like to play again? (y or n)? ";
+        cin >> responce;
+        cout << "\n";
+        }
+
+        if (choice == "s")
+       {
+        if (comp_num == 3   or comp_num == 1)
+        {
+            cout << "You Win!" << "\n";
+        }
+        else if (comp_num == 0 or comp_num == 4)
+        {
+            cout << "You Loose" << "\n";
+        }
+        else if (comp_num == 2)
+        {
+            cout << "Tied Game" << "\n";
+        }
+        cout<< "Would you like to play again? (y or n)? ";
+        cin >> responce;
+        cout << "\n";
+        }
+
+        if (choice == "l")
+       {
+        if (comp_num == 1   or comp_num == 4)
+        {
+            cout << "You Win!" << "\n";
+        }
+        else if (comp_num == 0 or comp_num == 2)
+        {
+            cout << "You Loose" << "\n";
+        }
+        else if (comp_num == 3)
+        {
+            cout << "Tied Game" << "\n";
+        }
+        cout<< "Would you like to play again? (y or n)? ";
+        cin >> responce;
+        cout << "\n";
+        }
+
+        if (choice == "k")
+       {
+        if (comp_num == 0   or comp_num == 2)
+        {
+            cout << "You Win!" << "\n";
+        }
+        else if (comp_num == 1 or comp_num == 3)
+        {
+            cout << "You Loose" << "\n";
+        }
+        else if (comp_num == 4)
+        {
+            cout << "Tied Game" << "\n";
+        }
+        cout<< "Would you like to play again? (y or n)? ";
+        cin >> responce;
+        cout << "\n";
+        }
+
+
+    }
+
+   if (responce == "n")
+   {
+    cout << "See you soon!" << "\n";
+   }
+ return 0;
+}
